@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+        
+            max-width: 800px;
+            margin: auto;
+            background: linear-gradient(#2fa8cf,transparent);
+        }
+        #pass{
+            width:100%;
+          
+            padding:20px;
+        }
+        label{line-height: 50px;
+        font-size: 30px;
+        margin-left: 20px;}
+        .innerpass{
+            display: flex;
+          justify-content: space-between;
+        
+          height: 50px;
+        }
+        .innerpass div:nth-child(1){width: 90%;
+        }
+         .innerpass div:nth-child(2){width: 10%;
+        
+         text-align: center;
+       }
+
+       
+        input[type="text"]{
+            width: 100%;
+            height: 50px;
+         background-color: transparent;
+          font-size: 30px;
+          border:.1px solid black;
+         color: black;
+        }
+        input[type="number"]{
+            width: 100%;
+            height: 100%;
+            border:.1px solid black;
+         font-size: 30px;
+         text-align: center;
+ background-color: transparent;
+         color: black;
+        }
+        button{width: 100%;
+        font-size: 1.5rem;
+        border:.1px solid black;
+   background-color: transparent;
+       color:black;
+        height:100%;}
+        #geneid{
+            background: linear-gradient(transparent,#33ca0d);
+            border-radius: 10px;
+        }
+       
+        #container h1{
+            font-size: 2em;
+     
+            text-align: center;
+        }
+        #cpy{
+            background-color: rgb(253, 252, 252);
+        }
+        input[type="checkbox"]{
+            width:30px;
+            height:30px;
+        }
+        @media screen and (max-width: 480px){
+            .innerpass div:nth-child(1){width: 70%;
+        }
+         .innerpass div:nth-child(2){width: 30%;
+       
+         font-size: 1em;
+         text-align: center;
+       }
+       label{line-height: 30px;
+        font-size: 16px;
+      }
+      input[type="checkbox"]{
+            width:20px;
+            height:20px;
+        }
+        input[type="text"]{
+            width: 100%;
+            height: 40px;
+         background-color: transparent;
+          font-size: 16px;
+          border:.1px solid black;
+         color: black;
+        }
+        input[type="number"]{
+            width: 100%;
+            height: 100%;
+            border:.1px solid black;
+         font-size: 20px;
+         text-align: center;
+ background-color: transparent;
+         color: black;
+        }
+        .innerpass{
+            display: flex;
+          justify-content: space-between;
+        
+          height:40px;
+        }
+        
+        }
+        #copied1 {
+    width: 100%;
+    height: 0px;
+    background-color: #55dd14;
+    font-size: 20px;
+    text-align: center;
+    line-height: 52px;
+    overflow: hidden;
+transition: all .4s;
+}
+    </style>
+</head>
+
+<body>
+<div id="copied1"> Password copied</div>
+    <div id="container">
+        <h1>PASSWORD GENERATION</h1>
+        <div id="pass">
+           <div class="innerpass"> <div><input type="text" name="password" id="passp"></div><div><button id="cpy">copy</button></div></div>
+            <div class="innerpass"><div><label>Password Length</label></div><div><input type="number" name="length" id="l" value="20"></div></div>
+            <div class="innerpass"><div><label>Include UpperCase</label></div><div><input type="checkbox" name="upper" id="up" checked></div></div>
+            <div class="innerpass"><div><label>Include LowerCase</label></div><div><input type="checkbox" name="lower" id="lw" checked></div></div>
+            <div class="innerpass"><div><label>Include Number</label></div><div><input type="checkbox" name="number" id="nm" checked></div></div>
+            <div class="innerpass"><div><label>Include Symbol</label></div><div><input type="checkbox" name="symbols" id="sm" checked></div></div>
+            <div class="innerpass"><button onclick="generate()" id="geneid">generate</button></div>
+
+        </div>
+    </div>
+
+
+    <script>
+        let clipboardEl = document.getElementById("cpy");
+        const up = document.getElementById("up");
+        const lw = document.getElementById("lw");
+        const nm = document.getElementById("nm");
+        const sm = document.getElementById("sm");
+
+        const passp = document.getElementById("passp");
+        const fungen = {
+            L: genlower,
+            U: genupper,
+            N: gennumber,
+            S: gensymbol
+        }
+        console.log("this is password generation");
+        function genlower() {
+            return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+        }
+        function genupper() {
+            return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+        }
+        function gennumber() {
+            return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
+        }
+        function gensymbol() {
+            const symbols = '!@#$%^&*(){}[]=<>/,.';
+            return symbols[Math.floor(Math.random() * symbols.length)];
+        }
+        function generate() {
+            let U = up.checked;
+            let L = lw.checked;
+            let N = nm.checked;
+            let S = sm.checked;
+            let len = l.value;
+
+            let count = U + L + N + S;
+            let newar = [{ U }, { L }, { N }, { S }].filter(value => Object.values(value)[0]);
+            let str = "";
+            const randomarr = [];
+            if (count === 0) {
+                passp.value = " ";
+                return 0;
+            }
+            else {
+                newar.forEach((val) => {
+                    let keyi = Object.keys(val)[0];
+                    randomarr.push(keyi);
+                })
+
+
+                for (i = 0; i < len; i++) {
+                    str += fungen[randomarr[Math.floor(Math.random() * randomarr.length)]]();
+                }
+
+
+                passp.value = str;
+            }
+        }
+        // Copy to clipboard
+        clipboardEl.addEventListener('click', () => {
+            const textarea = document.createElement('textarea');
+            const password = passp.value;
+
+            if (!password) {
+                return
+            }
+
+            textarea.value = password;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+            let selectcopy=document.getElementById("copied1");
+            selectcopy.style="height:50px";
+            setTimeout(()=>{
+                selectcopy.style="height:0px";
+            },2000);
+        })
+    </script>
+</body>
+
+</html>
